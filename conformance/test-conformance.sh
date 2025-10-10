@@ -47,3 +47,9 @@ if [ "$1" = "androidNative" ]; then
         adb shell rm $DEVICE_EXECUTABLE
     fi
 fi
+if [ "$1" = "androidJvm" ]; then
+    DEVICE_APK="/data/local/tmp/conformance.apk"
+    adb push $DIR/android/build/outputs/apk/release/conformance-android-release-unsigned.apk $DEVICE_APK
+    $CONF_TEST_PATH --enforce_recommended --failure_list $DIR/jvm/failing_tests.txt $DIR/android/run.sh
+    adb shell rm $DEVICE_APK
+fi
